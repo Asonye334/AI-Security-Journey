@@ -49,4 +49,44 @@ To align my technical exploration with professional security standards, I map th
 * **NIST AI Risk Management Framework (AI RMF 1.0)**
 * **OWASP Top 10 for LLM Applications**
 
-*Stay tuned for Part 2, where we will dive into the specific threat vectors facing these layers.*
+
+
+## 🧱 Part 2: Deep-Dive into the Enterprise Layers
+
+Now that the high-level ecosystem is mapped, we must zoom in on how these components operate under the hood in a production environment. Securing an enterprise AI deployment requires a precise understanding of where data is structured, where raw mathematics occur, and where security rules are actually enforced.
+
+### 1. The Data & Knowledge Foundation Layer
+Enterprise models do not operate in a vacuum. To provide business value, they rely on a continuous flow of context and proprietary information. This layer is divided into two operational halves:
+
+*   **Dynamic Data Pipelines:** Far from static databases, these are active pipelines that continuously ingest, clean, and structure raw data. From a security perspective, this is where data preprocessing occurs (e.g., stripping out PII, sanitizing inputs, and deduplicating records) before information is committed to long-term memory.
+*   **Vector Databases (Knowledge Retrieval Infrastructure):** Tools like Pinecone, Milvus, or pgvector act as the external "brain" or memory of the enterprise system. By converting unstructured enterprise data into mathematical vector embeddings, the system can quickly fetch relevant context to pass to the model via Retrieval-Augmented Generation (RAG).
+
+---
+
+### 2. The Core Intelligence Layer (The Mathematical Engine)
+A common misconception when first entering this space is assuming the AI model itself evaluates security rules, blocks malicious queries, or makes logical decisions. **It does not.** 
+
+The model layer is strictly a high-speed mathematical engine.
+*   **The Architecture:** It takes numerical vectors as inputs, performs billions of matrix multiplications across graphic processors (GPUs) or specialized TPU accelerators, and outputs a list of statistical probabilities (the most likely next tokens).
+*   **The Operational Phases:**
+    *   **The Loader Phase:** The static weights and parameters (the model's stored brain) are copied from storage disk into fast, highly volatile GPU VRAM.
+    *   **The Inference Phase:** The active execution loop where incoming user prompts are mathematically processed through these loaded weights to calculate and stream back a response.
+
+Because this layer is strictly mathematical, it is blind to "good" versus "bad" logic. It simply calculates probabilities.
+
+---
+
+### 3. The Software & Orchestration Layer (Where Security Lives)
+If the model is the high-speed math engine, the **Orchestration Layer** is the driver. Built using frameworks like LangChain, Semantic Kernel, or custom API microservices (like FastAPI), this layer is the central nervous system of the enterprise application.
+
+*   **The Gatekeeper:** This is the *only* place where security boundaries, system rules, and prompt guardrails can be reliably enforced. 
+*   **Operational Flow:** The orchestration layer accepts the user's input, queries the vector database for matching enterprise context, structures the final prompt, passes it to the mathematical model engine, intercepts the model's raw output to check for leaks or injections, and finally returns the safe response to the user.
+
+If you want to validate a token, rate-limit a user, check access permissions, or block a prompt injection attack, **it must happen at this software orchestration layer.**
+
+---
+
+## 🛠️ What's Next: Transitioning to Compute Infrastructure
+Every single component discussed above—the vector database, the mathematical weights running in GPU memory, and the orchestration APIs—must be hosted on physical or virtual hardware. 
+
+To understand how to protect these layers from resource exhaustion, unauthorized access, and container breakouts, our next phase of exploration will focus directly on **Compute Infrastructure**—analyzing how virtualization, containerization (Docker), and cloud environments execute and isolate these critical AI workloads.
