@@ -84,6 +84,10 @@ If the model is the high-speed math engine, the **Orchestration Layer** is the d
 
 If you want to validate a token, rate-limit a user, check access permissions, or block a prompt injection attack, **it must happen at this software orchestration layer.**
 
+> ### 🛠️ Hands-On Implementation: The API Gateway Shield
+> To demonstrate these architectural security concepts in practice, I engineered an edge-level rate-limiting defense using Nginx to shield the orchestration layer from Model Denial of Service (DoS) attacks.
+>
+> *   **View the active lab configuration and deployment blueprint here:** [Nginx API Gateway Lab](./labs/gateway-dos-shield/)
 ---
 
 ## 🛠️ What's Next: Transitioning to Compute Infrastructure
