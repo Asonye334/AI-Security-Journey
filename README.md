@@ -93,4 +93,49 @@ If you want to validate a token, rate-limit a user, check access permissions, or
 ## 🛠️ What's Next: Transitioning to Compute Infrastructure
 Every single component discussed above—the vector database, the mathematical weights running in GPU memory, and the orchestration APIs—must be hosted on physical or virtual hardware. 
 
-To understand how to protect these layers from resource exhaustion, unauthorized access, and container breakouts, our next phase of exploration will focus directly on **Compute Infrastructure**—analyzing how virtualization, containerization (Docker), and cloud environments execute and isolate these critical AI workloads.
+# AI Security Architecture: Core Pillars & Defensive Baseline
+
+This repository outlines the structural security framework required to protect end-to-end artificial intelligence systems. As AI pipelines transition into core operational dependencies, securing the execution surface requires a defense-in-depth model spanning low-level operating system controls up to application-level orchestration.
+
+---
+
+## 🏗️ Architectural Layers Overview
+---
+
+## 🛡️ Core Pillars Breakdown
+
+### 1. IT & Systems Infrastructure Foundations
+The foundational OS and network stack powering model host environments.
+* **Linux Process Isolation:** Enforcing POSIX privileges, system monitoring, and cgroup resource boundaries.
+* **Network Segmentation:** Private subnets, VPC boundaries, and host-level firewall enforcement (`iptables`/`nftables`).
+* **Automated Hardening:** Infrastructure-as-code scripting for patch management and configuration tracking.
+
+### 2. Compute Infrastructure Layer
+Virtualization, accelerator access, and host kernel protection.
+* **Syscall Filtering (SECCOMP):** Intercepting and blocking unsafe system calls to prevent host kernel exploits.
+* **Mandatory Access Control (AppArmor / SELinux):** Path- and label-based profiles restricting container runtime access to system paths (`/proc`, `/sys`).
+* **Hardware & TEE Isolation:** Utilizing Trusted Execution Environments (TEEs) for isolated memory execution on multi-tenant GPUs/TPUs.
+
+### 3. Data Layer Security
+Protecting data integrity, privacy, and lineage across the lifecycle.
+* **Data Poisoning Prevention:** Cryptographic verification, checksum audits, and ingestion validation pipelines.
+* **Access Control & Anonymization:** RBAC over vector databases and automated PII scrubbing.
+* **Lineage Tracking:** Immutable logging of data transformations and embedding modifications.
+
+### 4. Model Layer Security
+Safeguarding intellectual property, weights, and execution integrity.
+* **Serialization Hardening:** Restricting unsafe formats (`pickle`) in favor of secure formats (`safetensors`).
+* **Adversarial Resilience:** Robustness testing against evasion attacks, model extraction, and inversion vectors.
+* **At-Rest & In-Transit Encryption:** Encrypting weight artifacts across storage and serving environments.
+
+### 5. Orchestration Layer Security
+The operational perimeter interfacing AI models with applications and users.
+* **Guardrails & DLP:** Automated filtering for prompt injection, context manipulation, and data exfiltration.
+* **API Protection & Rate Limiting:** Reverse proxy controls (Nginx/Kong) to prevent Model Denial of Service (DoS).
+* **Agentic Boundaries:** Strict least-privilege scoping for automated agent execution tools.
+
+---
+
+## 📄 Usage
+
+This architecture serves as the baseline for threat modeling, security engineering audits, and infrastructure deployment pipelines across production AI environments.
